@@ -11,21 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('blogs', function (Blueprint $table) {
             $table->bigIncrements('id');
-
-            $table->unsignedBigInteger('user_type_id')->nullable();
-            $table->foreign('user_type_id')->references('id')->on('user_types')
+            
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')
                     ->onDelete('set null')->onUpdate('cascade');
-
+                     
             $table->unsignedBigInteger('status_id')->nullable();
             $table->foreign('status_id')->references('id')->on('statuses')
                     ->onDelete('set null')->onUpdate('cascade');
-                    
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            
+            $table->longText('topic');
+            $table->longText('blog');
+            $table->dateTime('expires_at')->nullable();
+
             $table->timestamps();
         });
     }
@@ -35,13 +35,13 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign('users_user_type_id_foreign');
-            $table->dropColumn('user_type_id');
-            $table->dropForeign('users_status_id_foreign');
+        Schema::table('blogs', function (Blueprint $table) {
+            $table->dropForeign('blogs_user_id_foreign');
+            $table->dropColumn('user_id');
+            $table->dropForeign('blogs_status_id_foreign');
             $table->dropColumn('status_id');
         });
-        Schema::dropIfExists('users');
-        
+        Schema::dropIfExists('blogs');
+
     }
 };
