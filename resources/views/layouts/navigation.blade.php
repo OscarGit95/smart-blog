@@ -111,7 +111,7 @@
     <nav>
         <ul class="nav__links">
             <li><a href="/">Inicio</a></li>
-            <li><a href="#">Blogs</a></li>
+            <li><a href="{{ route('blog.index') }}">Blogs</a></li>
         </ul>
     </nav>
     <form method="POST" action="{{ route('logout') }}">
@@ -127,7 +127,7 @@
         <a href="#" onclick="closeNavBar()" class="close_menu_responsive">&times;</a>
         <div class="overlay__content">
             <a href="/">Inicio</a>
-            <a href="#">Blogs</a>
+            <a href="{{ route('blog.index') }}">Blogs</a>
             <form method="POST" action="{{ route('logout') }}">
             @csrf
                 <a 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BlogController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    //Blogs
+    Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+    Route::post('/blog/request-topic', [BlogController::class, 'requestTopic']);
+    Route::post('/blog/store', [BlogController::class, 'store'])->name('blog.store');
+
 });
 
 require __DIR__.'/auth.php';
