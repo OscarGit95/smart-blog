@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+{{-- <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -100,4 +100,43 @@
             </div>
         </div>
     </div>
-</nav>
+</nav> --}}
+
+<header class="header">
+    <div class="nav__logo">
+        <a href="/">
+            <img src="{{ asset('images/identity/smart_blog_icon.png') }}"  alt="Smart blog logo">
+        </a>
+    </div>
+    <nav>
+        <ul class="nav__links">
+            <li><a href="/">Inicio</a></li>
+            <li><a href="#">Blogs</a></li>
+        </ul>
+    </nav>
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <a 
+            class="nav__button" 
+            href="{{route('logout')}}" 
+            onclick="event.preventDefault();
+            this.closest('form').submit();">Cerrar sesión</a>
+    </form>
+    <a href="#" onclick="openNavBar()" class="nav__menu_responsive">Menú</a>
+    <div class="overlay" id="nav__mobile_menu">
+        <a href="#" onclick="closeNavBar()" class="close_menu_responsive">&times;</a>
+        <div class="overlay__content">
+            <a href="/">Inicio</a>
+            <a href="#">Blogs</a>
+            <form method="POST" action="{{ route('logout') }}">
+            @csrf
+                <a 
+                href="{{route('logout')}}" 
+                onclick="event.preventDefault();
+                this.closest('form').submit();">
+                    Cerrar sesión
+                </a>
+            </form>
+        </div>
+    </div>
+</header>
