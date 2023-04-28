@@ -144,8 +144,19 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 50px;
+    height: 54px;
     padding: 5px 10%;
+}
+
+.header_secondary div {
+    background: white;
+    border-radius: 16px;
+    padding: .5em;
+}
+
+.header_secondary__username {
+    color: white;
+    font-weight: 500;
 }
 
 .header_secondary__title {
@@ -155,9 +166,13 @@
 
 }
 
-.header_secondary__username {
-    color: white;
-    font-weight: 500;
+
+@media(max-width: 768px) {
+    .header_secondary {
+        justify-content: center;
+    }
+    .header_secondary div {
+       display: none;
+    
+    }
 }
-
-

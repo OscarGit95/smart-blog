@@ -12,7 +12,7 @@ class Blog extends Model
     protected $table = 'blogs';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'user_id', 'status_id', 'topic', 'blog', 'expires_at'
+        'user_id', 'status_id', 'topic', 'blog', 'expires_at', 'created_at', 'updated_at'
     ];
 
     public function user(){

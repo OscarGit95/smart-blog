@@ -10,4 +10,8 @@ class Status extends Model
     use HasFactory;
 
     protected $table = 'statuses';
+    protected $primaryKey = 'id';
+    protected $fillable = [
+        'name', 'created_at', 'updated_at'
+    ];
 }

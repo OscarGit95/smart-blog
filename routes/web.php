@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,18 +23,17 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('dashboard');
-    });
-    
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    //Dashboard
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 
     //Blogs
     Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+    Route::get('/blog/{id}', [BlogController::class, 'edit'])->name('blog.edit');
     Route::post('/blog/request-topic', [BlogController::class, 'requestTopic']);
+    Route::put('/blog/{id}', [BlogController::class, 'update'])->name('blog.update');
     Route::post('/blog/store', [BlogController::class, 'store'])->name('blog.store');
+    Route::delete('/blog/delete/{id}', [BlogController::class, 'delete'])->name('blog.delete');
 
 });
 

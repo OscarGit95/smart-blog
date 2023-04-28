@@ -1,0 +1,142 @@
+.empty_blogs {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
+.empty_blogs h1 {
+    color: white;
+    font-size: 40px;
+}
+
+.empty_blogs a {
+    background: #157b82;
+    padding: .5em;
+    font-size: 40px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    border-radius: 16px;
+    border: none;
+    color: white;
+    margin-top: .5em;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.empty_blogs a:hover {
+    color: #157b82;
+    background: white;
+}
+
+.empty_blogs video {
+    max-width: 100%;
+    max-height: 40vh;
+}
+
+/* Blogs list */
+
+.list_blog_container {
+    background: rgba(255, 255, 255, 0.3);
+    margin: 5% 10%;
+    padding: 2em;
+    border-radius: 16px;
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+
+.blogs_published_container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1em;
+}
+
+
+.blog {
+    width: 100%;
+    height: fit-content;
+    border: none;
+    background: rgb(255, 231, 57);
+}
+
+.blog_header {
+    box-shadow: 0 8px 15px #696666;
+    padding: 1em;
+}
+
+.blog_header h1 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.blog_content{
+    padding: 1.5em 1em;
+    max-height: 25vh;
+    overflow-y: scroll;
+}
+
+.blog_content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.blog_content::-webkit-scrollbar-track {
+    border-radius: 8px;
+    background-color: #e7e7e7;
+    border: 1px solid #cccccc;
+}
+
+.blog_content::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: rgb(176, 176, 176);
+}
+
+.blog_content p {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.blog_footer {
+    box-shadow: 0 8px 15px #696666;
+    padding: 1em;
+    text-align: start;
+}
+
+.blog_footer p {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.list_blog_container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.list_blog_container::-webkit-scrollbar-track {
+    border-radius: 8px;
+    background-color: #e7e7e7;
+    border: 1px solid #cccccc;
+}
+
+.list_blog_container::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: rgb(26, 116, 106);
+}
+
+@media(max-width: 900px) {
+    .empty_blogs h1, 
+    .empty_blogs a {
+        font-size: 24px;
+    }
+
+    .list_blog_container {
+        margin: 5%;
+        max-height: 80vh;
+    }
+    .blogs_published_container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1em;
+    }
+    
+}
