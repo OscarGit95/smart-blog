@@ -37,4 +37,14 @@
             </div>
         </section>
     @endif
+
+    @if(session('errors_function'))
+        <script>
+            Swal.fire({
+                title: "Ups 😶‍🌫️",
+                text: "{{session('errors_function')}}",
+                icon: "error",
+            });
+        </script>
+    @endif
 </x-app-layout>

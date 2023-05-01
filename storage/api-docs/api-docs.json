@@ -1,0 +1,78 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Smart Blog",
+        "description": "Aplicación web que genera blogs con ayuda de ChatGPT",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000/"
+        }
+    ],
+    "paths": {
+        "/api/": {
+            "get": {
+                "tags": [
+                    "Inicio"
+                ],
+                "summary": "Listado de los blogs vigentes del usuario",
+                "operationId": "1f2789af0a03252f07a8d2b28110479b",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rows": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "user_id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "status_id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "topic": {
+                                                        "type": "string",
+                                                        "example": "SpaceX"
+                                                    },
+                                                    "blog": {
+                                                        "type": "string",
+                                                        "example": "Space Exploration Technologies Corp., conocida como SpaceX, es una empresa estadounidense de fabricación aeroespacial y de servicios de transporte espacial con sede en Hawthorne. Fue fundada en 2002 por Elon Musk con el objetivo de reducir los costes de viajar al espacio para facilitar la colonización de Marte.​​​"
+                                                    },
+                                                    "expires_at": {
+                                                        "type": "timestamp",
+                                                        "example": "2023-02-23T00:09:16.000000Z"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "timestamp",
+                                                        "example": "2023-02-23T00:09:16.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "timestamp",
+                                                        "example": "2023-02-23T12:33:45.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

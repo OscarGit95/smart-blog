@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Http\JsonResponse;
 use App\Models\Blog;
 use App\Http\Requests\BlogRequest;
+use Carbon\Carbon;
 use DB;
 
 
@@ -14,7 +15,7 @@ class BlogController extends Controller
 {
     public function index(Request $request) {
         try{
-            $blogs = Blog::where('user_id', auth()->user()->id)->whereNotIn('status_id', [3])->get();
+            $blogs = Blog::where('user_id', auth()->user()->id)->where('expires_at', '>=', Carbon::now()->format('Y-m-d'))->whereNotIn('status_id', [3])->get();
            
             return view('blog.index', compact('blogs'));
         }catch(\Throwable $th){
@@ -67,7 +68,7 @@ class BlogController extends Controller
         }
     }
 
-    //Esta función consulta por ID la información del blog a editar
+    //Esta función consulta por la ID del usuario
     public function edit($id){
         try{
             $blog = Blog::findOrFail($id);
@@ -77,15 +78,14 @@ class BlogController extends Controller
             return response()->json('errors_function', 'No pudimos encontrar la información. Contacta a soporte técnico', 500);
         }
     }
-
-    //Esta función valida y actualiza el blog
+    //Esta funcion valida y actualiza el blog
     public function update(BlogRequest $request, $id){
         try{
             DB::beginTransaction();
             $blog = Blog::findOrFail($id);
             $blog->topic = ($request->edit_topic) ? $request->edit_topic : 'Blog sin tema';
             $blog->blog = $request->edit_blog_content;
-            $blog->expires_at = $request->blog_date;
+            $blog->expires_at = $request->edit_blog_date;
             $blog->update();
             DB::commit();
 
@@ -96,7 +96,7 @@ class BlogController extends Controller
         }
     }
 
-    //Esta función elimina lógicamente el blog
+    //Esta funcion elimina de manera lógica el blog
     public function delete(Request $request, $id) {
         try{
             DB::beginTransaction();
