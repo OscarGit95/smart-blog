@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserInformation;
 use App\Providers\RouteServiceProvider;
 use App\Http\Requests\Auth\RegisterUserRequest;
 use Illuminate\Auth\Events\Registered;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use DB;
 
 class RegisteredUserController extends Controller
 {
@@ -32,23 +34,30 @@ class RegisteredUserController extends Controller
      */
     public function store(RegisterUserRequest $request): RedirectResponse
     {
-        dd($request);
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
+        try{
+            DB::beginTransaction();
+            $user = User::create([
+                'user_type_id' => 2,
+                'status_id' => 1,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+            $userInfo = UserInformation::create([
+                'user_id' => $user->id,
+                'name' => $request->name,
+                'last_name' => $request->last_name,
+                'username' => $request->username,
+                'age' => $request->age,
+            ]);
+    
+            event(new Registered($user));
+            
+            Auth::login($user);
+            DB::commit();
+            return redirect(RouteServiceProvider::HOME);
+        }catch(\Throwable $th){
+            DB::rollback();
+            return back()->with('errors', 'Ocurrió un problema al registrarte. Contacta a soporte técnico');
+        }
     }
 }
