@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\JsonResponse;
 use App\Models\Blog;
+use App\Http\Requests\BlogRequest;
 use DB;
 
 
@@ -17,10 +18,11 @@ class BlogController extends Controller
            
             return view('blog.index', compact('blogs'));
         }catch(\Throwable $th){
-            return back()->withErrors('Ocurrió un problema al ingresar a esta vista. Contacta a soporte técnico');
+            return back()->with('errors_function', 'Ocurrió un problema al ingresar a esta vista. Contacta a soporte técnico');
         }
     }
 
+    //Esta función consulta a la API de OpenAI 
     public function requestTopic(Request $request) {
 
         $chatGPTData = Http::withHeaders([
@@ -46,7 +48,8 @@ class BlogController extends Controller
         return response()->json($chatGPTData['choices'][0]['message']);
     }
 
-    public function store(Request $request) {
+    //Esta función valida y guarda los blogs
+    public function store(BlogRequest $request) {
         try{
             DB::beginTransaction();
             Blog::create([
@@ -57,24 +60,26 @@ class BlogController extends Controller
                 'expires_at' => $request->blog_date
             ]);
             DB::commit();
-            return back()->with('success', 'Tu blog ha sido posteado con éxito');
+            return back()->with('success_function', 'Tu blog ha sido posteado con éxito');
         }catch(\Throwable $th){
             DB::rollback();
-            return back()->with('errors', 'Ocurrió un problema al guardar tu post. Contacta a soporte técnico');
+            return back()->with('errors_function', 'Ocurrió un problema al guardar tu post. Contacta a soporte técnico');
         }
     }
 
+    //Esta función consulta por ID la información del blog a editar
     public function edit($id){
         try{
             $blog = Blog::findOrFail($id);
             return response()->json($blog);
 
         }catch(\Throwable $th){
-            return response()->json('errors', 'No pudimos encontrar la información. Contacta a soporte técnico', 500);
+            return response()->json('errors_function', 'No pudimos encontrar la información. Contacta a soporte técnico', 500);
         }
     }
 
-    public function update(Request $request, $id){
+    //Esta función valida y actualiza el blog
+    public function update(BlogRequest $request, $id){
         try{
             DB::beginTransaction();
             $blog = Blog::findOrFail($id);
@@ -84,13 +89,14 @@ class BlogController extends Controller
             $blog->update();
             DB::commit();
 
-            return back()->with('success', 'Tu blog ha sido actualizado con éxito');
+            return back()->with('success_function', 'Tu blog ha sido actualizado con éxito');
         }catch(\Throwable $th){
             DB::rollback();
-            return back()->with('errors', 'Ocurrió un problema al eliminar tu post. Contacta a soporte técnico');
+            return back()->with('errors_function', 'Ocurrió un problema al eliminar tu post. Contacta a soporte técnico');
         }
     }
 
+    //Esta función elimina lógicamente el blog
     public function delete(Request $request, $id) {
         try{
             DB::beginTransaction();
@@ -99,10 +105,10 @@ class BlogController extends Controller
             $blog->save();
             DB::commit();
 
-            return back()->with('success', 'Tu blog ha sido eliminado con éxito');
+            return back()->with('success_function', 'Tu blog ha sido eliminado con éxito');
         }catch(\Throwable $th){
             DB::rollback();
-            return back()->with('errors', 'Ocurrió un problema al eliminar tu post. Contacta a soporte técnico');
+            return back()->with('errors_function', 'Ocurrió un problema al eliminar tu post. Contacta a soporte técnico');
         }
     }
 }

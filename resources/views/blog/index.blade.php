@@ -14,16 +14,16 @@
             @csrf
             <div class="request_container">
                 <div class="form_blog_container">
-                    <input type="text" class="form_blog__input" name="topic" id="topic" placeholder="Busca o ingresa un tema para tu blog">
+                    <input type="text" class="form_blog__input" name="topic" id="topic"  value="{{ old('topic')}}" placeholder="Busca o ingresa un tema para tu blog">
                     <button type="button" class="form_chatgpt__button" id="request_chatgpt_button">ChatGPT</button>
                 </div>
                 <div class="response_container">
                     <div class="chatgpt_response_container">
-                        <textarea name="chatgpt_response" id="chatgpt_response" class="form_blog__textarea" cols="30" rows="10"></textarea>
+                        <textarea name="chatgpt_response" id="chatgpt_response" class="form_blog__textarea" cols="30" rows="10">{{{ old('chatgpt_response') }}}</textarea>
                     </div>
                     <div class="save_blog_container">
                         <div class="form_blog__group">
-                            <input type="date" name="blog_date" id="blog_date" class="form_blog__input_date">
+                            <input type="date" name="blog_date" id="blog_date" value="{{ old('blog_date') }}" class="form_blog__input_date">
                             <label for="blog_date" class="form_blog__label">Expira en *</label>
                         </div>
                         <div class="form_save__button_container">
@@ -63,10 +63,10 @@
                                         <button type="button" class="edit_button" onclick="editModal({{$blog->id}})">Editar</button>
                                     </div>
                                     <div>
-                                        <form action="{{ url('/blog/delete/'.$blog->id) }}" method="POST" id="form_delete_blog">
+                                        <form action="{{ url('/blog/delete/'.$blog->id) }}" method="POST" id="{{'form_delete_blog'.$blog->id}}">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="delete_button">Eliminar</button>
+                                            <button type="button" class="delete_button" onclick="deleteBlog({{$blog->id}})">Eliminar</button>
                                         </form>
                                     </div>
                                 </div>
@@ -77,9 +77,6 @@
             @endif
         </div>
         <!-- Modal section -->
-        {{-- <div class="container">
-            <button class="modal__button">Ver contenido</button>
-        </div> --}}
         <section class="modal">
             <div class="modal__container">
                 <form method="POST" id="form_edit_blog">
@@ -99,7 +96,7 @@
                             </div>
                             <div class="save_blog_container">
                                 <div class="form_blog__group">
-                                    <input type="date" name="blog_date" id="edit_blog_date" class="form_blog__input_date">
+                                    <input type="date" name="edit_blog_date" id="edit_blog_date" class="form_blog__input_date">
                                     <label for="edit_blog_date" class="form_blog__label">Expira en *</label>
                                 </div>
                             </div>
@@ -117,21 +114,36 @@
 
     @section('script')
         <script src="{{asset('js/blog/blog.js')}}"></script>
-        @if(session('success'))
+        @if(session('success_function'))
             <script>
-                swal({
+                Swal.fire({
                     title: "¡Listo 😉!",
-                    text: "{{session('success')}}",
-                    type: "success",
+                    text: "{{session('success_function')}}",
+                    icon: "success",
                 });
             </script>
         @endif
-        @if(session('errors'))
+        @if(session('errors_function'))
             <script>
-                swal({
+                Swal.fire({
                     title: "Ups 😶‍🌫️",
-                    text: "{{session('errors')}}",
-                    type: "error",
+                    text: "{{session('errors_function')}}",
+                    icon: "error",
+                });
+            </script>
+        @endif
+        @if($errors->any())
+            <script>
+                let listItems = '';
+                
+                @json($errors->all()).map((items) => {
+                    listItems += `<li>${items}</li>`;
+                });
+                console.log(listItems);
+                Swal.fire({
+                    title: "Ups 😶‍🌫️",
+                    html: `<ul>${listItems}</ul>`,
+                    icon: "error",
                 });
             </script>
         @endif

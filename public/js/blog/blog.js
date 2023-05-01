@@ -54,7 +54,7 @@ blogVariables.chatGPTButton.addEventListener('click', () => {
 
     if(blogVariables.topic.value.trim() == ''){
         blogVariables.topic.classList.add("form_blog__input_error");
-        swal("Ups!", "No has ingresado ningún tema para ChatGPT", "warning");
+        Swal.fire({title: "Ups!", text: "No has ingresado ningún tema para ChatGPT", icon: "warning"});
         return;
     }
     initialInputs();
@@ -71,7 +71,7 @@ blogVariables.chatGPTButton.addEventListener('click', () => {
         const { role, content } = data;
         console.log(content)
         if(content.includes("I'm sorry,")){
-            swal("Ups!", "No entendimos el tema que quisiste buscar. \n ¿Podrías darnos más contexto?", "warning");
+            Swal.fire({title: "Ups!", text: "No entendimos el tema que quisiste buscar. \n ¿Podrías darnos más contexto?", icon: "warning"});
         }else{
             blogVariables.responseChatGPT.style.height = "1px";
             blogVariables.responseChatGPT.style.height = (25 + blogVariables.responseChatGPT.scrollHeight) + "px";
@@ -81,7 +81,8 @@ blogVariables.chatGPTButton.addEventListener('click', () => {
     })
     .catch(error => {
         blogVariables.responseChatGPT.disabled = false;
-        swal("Ups!", error.message, "error");
+        Swal.fire({title: "Ups!", text: error.message, icon: "error"});
+
     })
 })
 
@@ -97,36 +98,66 @@ blogVariables.topic.addEventListener('change', () => {
 blogVariables.formBlog.addEventListener('submit', (e) => {
     e.preventDefault();
     if(validateForm()){
-        swal({
+        Swal.fire({
             title: "¿Publicamos tu blog?",
             text: "Revisa que contenga todo lo que deseas",
             icon: "info",
-            buttons: ["Sí, publícalo 😊", "Aún no 😓"],
-            dangerMode: true,
+            showCloseButton: true,
+            showCancelButton: true,
+            confirmButtonText:
+            'Sí publícalo 😉',
+            cancelButtonText:
+            'Aún no 😓',
           })
-          .then((willDelete) => {
-            if(!willDelete) {
+          .then((result) => {
+            if(result.isConfirmed){
                 $(e.target).closest('form').submit();
-            } 
+            }
           });
     }
 });
 
-blogVariables.formDeleteBlog.addEventListener('submit', (e) => {
-    e.preventDefault();
-    swal({
+function deleteBlog(id) {
+    Swal.fire({
         title: "¿Eliminamos tu blog?",
         text: "No importa, puedes publicar más",
         icon: "info",
-        buttons: ["Sí, elimínalo 😉", "Aún no 😓"],
-        dangerMode: true,
+        showCloseButton: true,
+        showCancelButton: true,
+        confirmButtonText:
+        'Sí elimínalo 😉',
+        cancelButtonText:
+        'Aún no 😓',
       })
-      .then((willDelete) => {
-        if(!willDelete) {
-            $(e.target).closest('form').submit();
+      .then((result) => {
+        if(result.isConfirmed) {
+            document.querySelector(`#form_delete_blog${id}`).submit();
         } 
       });
-});
+}
+
+// Modal functions
+
+function validateFormUpdate() {
+    if(modalVariables.blog.value.trim() == ""){
+        isError = true;
+        swalError("El contenido del blog está vacío");
+        return false;
+    }
+
+    if(modalVariables.date.value == ""){
+        isError = true;
+        swalError("Selecciona una fecha de expiración para tu blog");
+        return false;
+    }
+
+    if(modalVariables.date.value <= moment().format('YYYY-MM-DD')){
+        isError = true;
+        swalError("La fecha debe ser al menos un día posterior a hoy");
+        return false;
+    }
+    return true;
+}
 
 function editModal(id) {
     fetch(`${baseUrl}/blog/${id}`, {
@@ -147,7 +178,7 @@ function editModal(id) {
             modal.classList.add('modal_show');
         })
         .catch(error =>{
-            swal("Ups!", error.message, "error");
+            Swal.fire({title: "Ups!", text: error.message, icon: "error"});
 
         });
 }
@@ -156,12 +187,34 @@ closeModal.addEventListener('click', () => {
     modal.classList.remove('modal_show');
 });
 
+modalVariables.formUpdateBlog.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if(validateFormUpdate()){
+        Swal.fire({
+            title: "¿Actualizamos tu blog?",
+            text: "Revisa que contenga todo lo que deseas actualizar",
+            icon: "info",
+            showCloseButton: true,
+            showCancelButton: true,
+            confirmButtonText:
+            'Sí actualízalo 😉',
+            cancelButtonText:
+            'Aún no 😓',
+          })
+          .then((result) => {
+            if(result.isConfirmed){
+                $(e.target).closest('form').submit();
+            }
+          });
+    }
+});
+
 modalVariables.chatGPTButton.addEventListener('click', () => {
     modalVariables.topic.classList.remove("form_blog__input_error");
 
     if(modalVariables.topic.value.trim() == ''){
         modalVariables.topic.classList.add("form_blog__input_error");
-        swal("Ups!", "No has ingresado ningún tema para ChatGPT", "warning");
+        Swal.fire({title: "Ups!", text: "No has ingresado ningún tema para ChatGPT", icon: "warning"});
         return;
     }
     modalVariables.blog.disabled = true;
@@ -177,9 +230,9 @@ modalVariables.chatGPTButton.addEventListener('click', () => {
     .then(response => response.json())
     .then(data => {
         const { role, content } = data;
-        console.log(content)
+        
         if(content.includes("I'm sorry,")){
-            swal("Ups!", "No entendimos el tema que quisiste buscar. \n ¿Podrías darnos más contexto?", "warning");
+            Swal.fire({title: "Ups!", text: "No entendimos el tema que quisiste buscar. \n ¿Podrías darnos más contexto?", icon: "warning"});
         }else{
             modalVariables.blog.disabled = false;
             modalVariables.blog.value = content;
@@ -187,10 +240,7 @@ modalVariables.chatGPTButton.addEventListener('click', () => {
     })
     .catch(error => {
         modalVariables.blog.disabled = false;
-        swal("Ups!", error.message, "error");
+        Swal.fire({title: "Ups!", text: error.message, icon: "error"});
     })
 })
 
-$(function(){
-    
-})

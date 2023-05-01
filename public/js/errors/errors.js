@@ -1,3 +1,3 @@
 function swalError(error) {
-    swal("Ups!", error, "warning");
+    Swal.fire({title: "Ups!", text: error, icon: "warning"});
 }
