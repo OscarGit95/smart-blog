@@ -13,16 +13,16 @@ use Carbon\Carbon;
 *             description="Aplicación web que genera blogs con ayuda de ChatGPT"
 * )
 *
-* @OA\Server(url="http://127.0.0.1:8000/")
+* @OA\Server(url="http://127.0.0.1:8000")
 */
 
 
 class DashboardController extends Controller
 {
-    /**
+/**
      * Listado de los blogs vigentes del usuario
      * @OA\Get (
-     *     path="/api/",
+     *     path="/",
      *     tags={"Inicio"},
      *     @OA\Response(
      *         response=200,
@@ -76,7 +76,15 @@ class DashboardController extends Controller
      *                 )
      *             )
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(
+     *          response=500,
+     *          description="SERVER ERROR",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Ocurrió un problema al ingresar a esta vista. Contacta a soporte técnico"),
+     *          )
+     *      )
+     *    )
      * )
      */
     public function index(){
@@ -84,7 +92,7 @@ class DashboardController extends Controller
             $blogs = Blog::where('user_id', auth()->user()->id)->where('expires_at', '>=', Carbon::now()->format('Y-m-d'))->whereNotIn('status_id', [3])->get();
             return view('dashboard', compact('blogs'));
         }catch(\Throwable $th){
-            return back()->with('errors_function', 'Ha ocurrido un problema al cargar esta vista. Contacta a soporte técnico.');
+            return back()->with('errors_function', 'Ocurrió un problema al ingresar a esta vista. Contacta a soporte técnico.');
         }
     }
 }

@@ -7,17 +7,147 @@
     },
     "servers": [
         {
-            "url": "http://127.0.0.1:8000/"
+            "url": "http://127.0.0.1:8000"
         }
     ],
     "paths": {
-        "/api/": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Inicio de sesión",
+                "operationId": "42f77e072dec84b0e1094cca1228298e",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rows": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "adolfor@smartblog.com"
+                                                    },
+                                                    "password": {
+                                                        "type": "string",
+                                                        "example": "adolfo123"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un problema al iniciar sesión. Contacta a soporte técnico"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "tags": [
+                    "Register"
+                ],
+                "summary": "Crear un usuario",
+                "operationId": "573de1fed352c1205a32c4d1b9877375",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rows": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Adolfo"
+                                                    },
+                                                    "last_name": {
+                                                        "type": "string",
+                                                        "example": "Ruiz"
+                                                    },
+                                                    "username": {
+                                                        "type": "string",
+                                                        "example": "AdolfoR30"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "adolfor@smartblog.com"
+                                                    },
+                                                    "password": {
+                                                        "type": "string",
+                                                        "example": "adolfo123"
+                                                    },
+                                                    "password_confirmation": {
+                                                        "type": "string",
+                                                        "example": "adolfo123"
+                                                    },
+                                                    "age": {
+                                                        "type": "number",
+                                                        "example": "30"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un problema al registrarte. Contacta a soporte técnico"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/blog": {
             "get": {
                 "tags": [
-                    "Inicio"
+                    "Blog"
                 ],
                 "summary": "Listado de los blogs vigentes del usuario",
-                "operationId": "1f2789af0a03252f07a8d2b28110479b",
+                "operationId": "544a6146a7525f7c997ecf0fd015c79c",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -64,6 +194,432 @@
                                                 },
                                                 "type": "object"
                                             }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un problema al ingresar a esta vista. Contacta a soporte técnico"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/filter": {
+            "post": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Filtra los blogs por tema",
+                "operationId": "51e5bfe7e1edfadf5a8172cb5875d1ba",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rows": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "filter": {
+                                                        "type": "string",
+                                                        "example": "SpaceX"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un problema al filtrar los blogs. Contacta a soporte técnico"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/request-topic": {
+            "post": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Consulta a la API de OpenAI en su endpoint de ChatGPT",
+                "operationId": "f71ca84c28ecbf3c7019957683c8ede4",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rows": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "topic": {
+                                                        "type": "string",
+                                                        "example": "SpaceX"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/store": {
+            "post": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Crear un blog",
+                "operationId": "b2be6851e4274300b9d975b0fb737016",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rows": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "topic": {
+                                                        "type": "string",
+                                                        "example": "SpaceX"
+                                                    },
+                                                    "chatgpt_response": {
+                                                        "type": "string",
+                                                        "example": "Space Exploration Technologies Corp., conocida como SpaceX, es una empresa estadounidense de fabricación aeroespacial y de servicios de transporte espacial con sede en Hawthorne. Fue fundada en 2002 por Elon Musk con el objetivo de reducir los costes de viajar al espacio para facilitar la colonización de Marte.​​​"
+                                                    },
+                                                    "blog_date": {
+                                                        "type": "timestamp",
+                                                        "example": "2023-02-23T00:09:16.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un problema al guardar tu post. Contacta a soporte técnico"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/{id}": {
+            "get": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Muestra la información de un blog",
+                "operationId": "4a4e4ddf9aceeeac20a1690953dad435",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "user_id": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "status_id": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "topic": {
+                                            "type": "string",
+                                            "example": "Elon Musk"
+                                        },
+                                        "blog": {
+                                            "type": "string",
+                                            "example": "Elon Reeve Musk (Pretoria, 28 de junio de 1971), conocido como Elon Musk, es un empresario, inversor y magnate sudafricano que también posee las nacionalidades canadiense y estadounidense. Es el fundador, consejero delegado e ingeniero jefe de SpaceX; inversor ángel, CEO y arquitecto de productos de Tesla, Inc"
+                                        },
+                                        "expires_at": {
+                                            "type": "timestamp",
+                                            "example": "2023-06-10T00:09:16.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "timestamp",
+                                            "example": "2023-05-10T00:09:16.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "timestamp",
+                                            "example": "2023-05-10T00:09:16.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No pudimos encontrar la información. Contacta a soporte técnico"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Actualiza un blog",
+                "operationId": "16bd0943adcec13a96eb44c3fe2996bb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rows": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "edit_topic": {
+                                                        "type": "string",
+                                                        "example": "SpaceX"
+                                                    },
+                                                    "edit_blog_content": {
+                                                        "type": "string",
+                                                        "example": "Space Exploration Technologies Corp., conocida como SpaceX, es una empresa estadounidense de fabricación aeroespacial y de servicios de transporte espacial con sede en Hawthorne. Fue fundada en 2002 por Elon Musk con el objetivo de reducir los costes de viajar al espacio para facilitar la colonización de Marte.​​​"
+                                                    },
+                                                    "edit_blog_date": {
+                                                        "type": "timestamp",
+                                                        "example": "2023-02-23T00:09:16.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un problema al eliminar tu post. Contacta a soporte técnico"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Elimina un blog",
+                "operationId": "5ff18ccb5e4868a94da2bafdcf236ab5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un problema al eliminar tu post. Contacta a soporte técnico"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/": {
+            "get": {
+                "tags": [
+                    "Inicio"
+                ],
+                "summary": "Listado de los blogs vigentes del usuario",
+                "operationId": "d24efbc8bf75c0603341a88542b47f47",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rows": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "user_id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "status_id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "topic": {
+                                                        "type": "string",
+                                                        "example": "SpaceX"
+                                                    },
+                                                    "blog": {
+                                                        "type": "string",
+                                                        "example": "Space Exploration Technologies Corp., conocida como SpaceX, es una empresa estadounidense de fabricación aeroespacial y de servicios de transporte espacial con sede en Hawthorne. Fue fundada en 2002 por Elon Musk con el objetivo de reducir los costes de viajar al espacio para facilitar la colonización de Marte.​​​"
+                                                    },
+                                                    "expires_at": {
+                                                        "type": "timestamp",
+                                                        "example": "2023-02-23T00:09:16.000000Z"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "timestamp",
+                                                        "example": "2023-02-23T00:09:16.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "timestamp",
+                                                        "example": "2023-02-23T12:33:45.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrió un problema al ingresar a esta vista. Contacta a soporte técnico"
                                         }
                                     },
                                     "type": "object"

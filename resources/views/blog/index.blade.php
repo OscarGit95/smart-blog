@@ -10,29 +10,32 @@
     </x-slot>
 
     <section class="blog_container">
-        <form action="{{ route('blog.store') }}" method="POST" id="form_save_blog">
-            @csrf
-            <div class="request_container">
-                <div class="form_blog_container">
-                    <input type="text" class="form_blog__input" name="topic" id="topic"  value="{{ old('topic')}}" placeholder="Busca o ingresa un tema para tu blog">
-                    <button type="button" class="form_chatgpt__button" id="request_chatgpt_button">ChatGPT</button>
-                </div>
-                <div class="response_container">
-                    <div class="chatgpt_response_container">
-                        <textarea name="chatgpt_response" id="chatgpt_response" class="form_blog__textarea" cols="30" rows="10">{{{ old('chatgpt_response') }}}</textarea>
+        <div>
+            <form action="{{ route('blog.store') }}" method="POST" id="form_save_blog">
+                @csrf
+                <div class="request_container">
+                    <div class="form_blog_container">
+                        <input type="text" class="form_blog__input" name="topic" id="topic"  value="{{ old('topic')}}" placeholder="Busca o ingresa un tema para tu blog">
+                        <button type="button" class="form_chatgpt__button" id="request_chatgpt_button">ChatGPT</button>
                     </div>
-                    <div class="save_blog_container">
-                        <div class="form_blog__group">
-                            <input type="date" name="blog_date" id="blog_date" value="{{ old('blog_date') }}" class="form_blog__input_date">
-                            <label for="blog_date" class="form_blog__label">Expira en *</label>
+                    <div class="response_container">
+                        <div class="chatgpt_response_container">
+                            <textarea name="chatgpt_response" id="chatgpt_response" class="form_blog__textarea" cols="30" rows="10">{{{ old('chatgpt_response') }}}</textarea>
                         </div>
-                        <div class="form_save__button_container">
-                            <button type="submit" id="save_blog__button" class="form_save__button">Publicar blog</button>
+                        <div class="save_blog_container">
+                            <div class="form_blog__group">
+                                <input type="date" name="blog_date" id="blog_date" value="{{ old('blog_date') }}" class="form_blog__input_date">
+                                <label for="blog_date" class="form_blog__label">Expira en *</label>
+                            </div>
+                            <div class="form_save__button_container">
+                                <button type="submit" id="save_blog__button" class="form_save__button">Publicar blog</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+
+        </div>
         <div class="list_blog_container">
             @if($blogs->isEmpty())
                 <div class="empty_blog_container">
@@ -46,33 +49,11 @@
                 <div class="my_blogs_container">
                     <h1>Mis blogs 🤖</h1>
                 </div>
+                <div class="search_container">
+                    <input type="text" class="form_search__input" name="search_topic" id="search_topic" placeholder="Buscar por tema">
+                </div>
                 <div class="blogs_published_container">
-                    @foreach($blogs as $blog)
-                        <div class="blog">
-                            <div class="blog_header">
-                                <h1>{{ $blog->topic }}</h1>
-                            </div>
-                            <div class="blog_content">
-                                <p>{!! nl2br(e($blog->blog)) !!}</p>
-                            </div>
-                            <div class="blog_footer">
-                                <p>{{\Carbon\Carbon::parse($blog->created_at)->diffForHumans()}}</p>
-                                <p>expira el {{\Carbon\Carbon::parse($blog->expires_at)->formatLocalized('%d de %B, %Y')}}</p>
-                                <div class="blog_options">
-                                    <div>
-                                        <button type="button" class="edit_button" onclick="editModal({{$blog->id}})">Editar</button>
-                                    </div>
-                                    <div>
-                                        <form action="{{ url('/blog/delete/'.$blog->id) }}" method="POST" id="{{'form_delete_blog'.$blog->id}}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="delete_button" onclick="deleteBlog({{$blog->id}})">Eliminar</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                    @include('blog.blogs')
                 </div>
             @endif
         </div>

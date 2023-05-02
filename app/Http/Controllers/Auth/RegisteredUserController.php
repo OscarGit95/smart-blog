@@ -32,6 +32,70 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
+    //Esta crea un usuario y valida informacion 
+    /**
+     * Crear un usuario
+     * @OA\Post (
+     *     path="/register",
+     *     tags={"Register"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 type="array",
+     *                 property="rows",
+     *                  @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="name",
+     *                         type="string",
+     *                         example="Adolfo"
+     *                     ),
+     *                      @OA\Property(
+     *                         property="last_name",
+     *                         type="string",
+     *                         example="Ruiz"
+     *                     ),
+     *                      @OA\Property(
+     *                         property="username",
+     *                         type="string",
+     *                         example="AdolfoR30"
+     *                     ),
+     *                    @OA\Property(
+     *                         property="email",
+     *                         type="string",
+     *                         example="adolfor@smartblog.com"
+     *                     ),
+     *                    @OA\Property(
+     *                         property="password",
+     *                         type="string",
+     *                         example="adolfo123"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="password_confirmation",
+     *                         type="string",
+     *                         example="adolfo123"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="age",
+     *                         type="number",
+     *                         example="30"
+     *                     ),
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="SERVER ERROR",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Ocurrió un problema al registrarte. Contacta a soporte técnico"),
+     *          )
+     *      )
+     *   )
+     * )
+     */
     public function store(RegisterUserRequest $request): RedirectResponse
     {
         try{

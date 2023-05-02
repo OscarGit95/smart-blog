@@ -23,6 +23,45 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
+
+    /**
+     * Inicio de sesión
+     * @OA\Post (
+     *     path="/login",
+     *     tags={"Login"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 type="array",
+     *                 property="rows",
+     *                  @OA\Items(
+     *                     type="object",
+     *                    @OA\Property(
+     *                         property="email",
+     *                         type="string",
+     *                         example="adolfor@smartblog.com"
+     *                     ),
+     *                    @OA\Property(
+     *                         property="password",
+     *                         type="string",
+     *                         example="adolfo123"
+     *                     ),
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="SERVER ERROR",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Ocurrió un problema al iniciar sesión. Contacta a soporte técnico"),
+     *          )
+     *      )
+     *   )
+     * )
+     */
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();

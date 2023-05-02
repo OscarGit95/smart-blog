@@ -22,6 +22,10 @@ const modalVariables = {
     chatGPTButton: document.querySelector('#modal_chatgpt_button')
 }
 
+const searchVariables = {
+    searchTopic: document.querySelector('#search_topic')
+}
+
 function initialInputs() {
     blogVariables.responseChatGPT.disabled = true;
     blogVariables.responseChatGPT.value = '';
@@ -86,10 +90,6 @@ blogVariables.chatGPTButton.addEventListener('click', () => {
     })
 })
 
-blogVariables.responseChatGPT.addEventListener('input', () => {
-    blogVariables.responseChatGPT.style.height = "auto";
-    blogVariables.responseChatGPT.style.height = (blogVariables.responseChatGPT.scrollHeight) + "px";
-});
 
 blogVariables.topic.addEventListener('change', () => {
     blogVariables.topic.classList.remove("form_blog__input_error");
@@ -242,5 +242,28 @@ modalVariables.chatGPTButton.addEventListener('click', () => {
         modalVariables.blog.disabled = false;
         Swal.fire({title: "Ups!", text: error.message, icon: "error"});
     })
-})
+});
+
+searchVariables.searchTopic.addEventListener('keyup', (e) => {
+    const { target } = e;
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    })
+    $.ajax({
+        type: 'POST',
+        data:{
+            filter: target.value
+        },
+        dataType: 'html',
+        url: `${baseUrl}/blog/filter`,
+        success: function (data) {
+            $('.blogs_published_container').empty().html(data);
+        },
+        error: function (data) {
+            Swal.fire({title: "Ups!", text: data.message, icon: "error"});
+        }
+    });
+});
 
